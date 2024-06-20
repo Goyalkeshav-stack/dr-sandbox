@@ -1,14 +1,25 @@
 from pydantic import BaseModel
 
 
+class RequestResponseBase(BaseModel):
+    url: str
+    request_type: str
+    request_payload: dict
+    request_headers: dict
+    request_params: str
+    response_data: dict
+    response_status_code: int
+    response_type: str
+
 class RequestBase(BaseModel):
     url: str
     request_type: str
-    request_body: str
-    request_parameter: str
-    request_response: str
-    response_status: int
-
+    request_payload: dict
+    request_headers: dict
+    request_params: str
+    response_data: dict
+    response_status_code: int
+    response_type: str
 
 class RequestCreate(RequestBase):
     pass
