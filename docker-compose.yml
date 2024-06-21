@@ -1,0 +1,13 @@
+version: '2.3'
+
+services:
+  universal_sandbox:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=universal-sandbox.84fqpe6.mongodb.net
+      - MONGODB_USERNAME=rajeshupadhayaya
+      - MONGODB_PASSWORD=Umy6ELZmWN2kYqCV
+    volumes:
+      - .:/app
