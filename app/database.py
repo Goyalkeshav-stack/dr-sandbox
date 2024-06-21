@@ -1,12 +1,13 @@
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from pymongo import MongoClient
+import certifi
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+# Connect to the MongoDB cluster with the CA certificate from certifi
+client = MongoClient(
+    "mongodb+srv://rajeshupadhayaya:Umy6ELZmWN2kYqCV@universal-sandbox.84fqpe6.mongodb.net/?retryWrites=true&w=majority&appName=Universal-sandbox",
+    tlsCAFile=certifi.where()
+)
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+# Access the 'universal-sandbox' database
+database = client['universal-sandbox']
 
-Base = declarative_base()
-metadata = MetaData()
 

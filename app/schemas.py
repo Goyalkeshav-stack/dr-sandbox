@@ -1,32 +1,28 @@
-from typing import Union
-
 from pydantic import BaseModel
+from typing import Any
 
 
-class RequestResponseBase(BaseModel):
+# Define Pydantic models
+class RequestCreate(BaseModel):
     request_url: str
     request_type: str
-    request_body: Union[str, dict]
-    request_headers: Union[str, dict]
-    request_params: str
-    response_data: Union[str, dict]
-    response_status_code: int
-    response_type: str
-
-class RequestBase(BaseModel):
-    request_url: str
-    request_type: str
-    request_body: Union[str, dict]
-    request_headers: Union[str, dict]
+    request_body: Any
+    request_headers: Any
     request_params: str
 
-class RequestCreate(RequestBase):
-    pass
 
-
-class Request(RequestBase):
-    id: int
+class RequestModel(RequestCreate):
     unique_id: str
 
-    class Config:
-        from_attributes = True
+
+class MockRequest(BaseModel):
+    request_url: str
+    request_type: str
+    request_body: Any
+    request_headers: Any
+    request_params: str
+
+
+class MockResponse(BaseModel):
+    request_body: Any
+
