@@ -1,0 +1,11 @@
+version: '2.3'
+
+services:
+  universal_sandbox:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb+srv://rajeshupadhayaya:Umy6ELZmWN2kYqCV@universal-sandbox.84fqpe6.mongodb.net/?retryWrites=true&w=majority&appName=Universal-sandbox
+    volumes:
+      - .:/app

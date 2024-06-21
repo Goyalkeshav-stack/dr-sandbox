@@ -5,6 +5,11 @@ Step1: pip install -r requirements
 
 step2: uvicorn app.main:app --reload
 
+# To run application using docker container
+* Run the below command to spin docker container
+    ```
+    docker-compose up
+    ```
 
 step3: For create request use bellow curl in postman
 curl --location --request POST 'http://127.0.0.1:8000/publish-response' \
