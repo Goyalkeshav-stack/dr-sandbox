@@ -1,5 +1,9 @@
+import json
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from starlette.responses import JSONResponse
+
 from .. import crud, schemas
 from ..database import SessionLocal, engine
 from ..models import Base
@@ -84,3 +88,7 @@ def fetch_response(payload: schemas.RequestBase, db: Session = Depends(get_db())
     except Exception as exc:
         return JSONResponse("Data Fetch Failed")
 
+@router.post("/requests/", response_model=schemas.Request)
+def create_request(request: schemas.RequestCreate, db: Session = Depends(get_db)):
+    print("here in create", request)
+    return crud.create_request(db=db, request=request)
