@@ -21,3 +21,9 @@ def get_db():
 def read_requests(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     requests = crud.get_requests(db, skip=skip, limit=limit)
     return requests
+
+
+@router.post("/requests/", response_model=schemas.Request)
+def create_request(request: schemas.RequestCreate, db: Session = Depends(get_db)):
+    print("here in create", request)
+    return crud.create_request(db=db, request=request)

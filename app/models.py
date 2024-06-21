@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
-from .database import Base
-
+from app.database import Base
 
 class RequestModel(Base):
     __tablename__ = "requests"
