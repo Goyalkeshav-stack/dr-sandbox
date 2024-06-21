@@ -22,22 +22,3 @@ def create_request(db: Session, request: RequestCreate):
     db.commit()
     db.refresh(db_request)
     return db_request
-
-
-# from app.database import SessionLocal
-#
-# db: Session = SessionLocal()
-#
-# sample_request = RequestCreate(
-#             url="http://example2.com",
-#             request_type="GET",
-#             request_body="{}",
-#             request_parameter="{}",
-#             request_response="{}",
-#             response_status=200
-#         )
-#
-#
-# create_request(db, sample_request)
-
-
