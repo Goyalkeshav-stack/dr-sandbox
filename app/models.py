@@ -1,4 +1,10 @@
+import decimal
+from datetime import date
+from json import JSONEncoder, dumps
+
 from sqlalchemy import Column, Integer, String, Text
+from sqlalchemy.orm import DeclarativeMeta
+
 from app.database import Base
 
 class RequestModel(Base):
@@ -15,27 +21,30 @@ class RequestModel(Base):
     response_status = Column(Integer)
     response_type = Column(Text)
 
-    def init_model(self):
-        self.id = None
-        self.unique_id = None
-        self.url = None
-        self.request_type = ""
-        self.request_body = {}
-        self.request_headers = {}
-        self.request_parameter = ""
-        self.request_response = {}
-        self.response_status = ""
-        self.response_type = ""
+class AlchemyEncoder(JSONEncoder):
+    def specialTypesEncoder(obj):
+        """JSON encoder function for SQLAlchemy special classes."""
+        if isinstance(obj, date):
+            return obj.isoformat()
+        elif isinstance(obj, decimal.Decimal):
+            return float(obj)
 
-
-    def modelmapper(self, req):
-        request = RequestModel()
-        request.id = req.id
-        request.unique_id = req.unique_id
-        request.url = req.url
-        request.request_type = req.request_type
-        request.request_body = req.request_body
-        request.request_parameter = req.request_parameter
-        request.request_response = req.request_response
-        request.response_status = req.response_status
-        return request
+    def default(self, obj):
+        if isinstance(obj.__class__, DeclarativeMeta):
+            # an SQLAlchemy class
+            fields = {}
+            for field in [x for x in dir(obj) if not x.startswith("_") and x != "metadata"]:
+                data = obj.__getattribute__(field)
+                try:
+                    if isinstance(data, date):
+                        fields[field] = data.isoformat()
+                    elif isinstance(data, decimal.Decimal):
+                        fields[field] = float(data)
+                    else:
+                        dumps(data)  # this will fail on non-encodable values, like other classes
+                        fields[field] = data
+                except TypeError:
+                    fields[field] = None
+            # a json-encodable dict
+            return fields
+        return JSONEncoder.default(self, obj)

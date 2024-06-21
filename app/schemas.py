@@ -1,25 +1,24 @@
+from typing import Union
+
 from pydantic import BaseModel
 
 
 class RequestResponseBase(BaseModel):
-    url: str
+    request_url: str
     request_type: str
-    request_payload: dict
-    request_headers: dict
+    request_body: Union[str, dict]
+    request_headers: Union[str, dict]
     request_params: str
-    response_data: dict
+    response_data: Union[str, dict]
     response_status_code: int
     response_type: str
 
 class RequestBase(BaseModel):
-    url: str
+    request_url: str
     request_type: str
-    request_payload: dict
-    request_headers: dict
+    request_body: Union[str, dict]
+    request_headers: Union[str, dict]
     request_params: str
-    response_data: dict
-    response_status_code: int
-    response_type: str
 
 class RequestCreate(RequestBase):
     pass
